@@ -1,2 +1,10 @@
+[project]
+name = "shopeasy"
+version = "1.0.0"
+requires-python = ">=3.12"
+dependencies = [
+    "Django>=5.2,<6.1",
+]
+
 [tool.vercel]
 entrypoint = "config.wsgi:application"
