@@ -1,0 +1,72 @@
+
+{% extends "store/base.html" %}
+
+{% block title %}My Profile - ShopEasy{% endblock %}
+
+{% block content %}
+
+<div class="profile-container">
+
+    <div class="profile-header">
+        <div class="profile-avatar">
+            {{ customer.username|first|upper }}
+        </div>
+
+        <h1>My Profile</h1>
+        <p>Welcome to your ShopEasy account!</p>
+    </div>
+
+    <div class="form-card">
+        <h2>Account Information</h2>
+
+        <p><strong>Username:</strong> {{ customer.username }}</p>
+
+        <p><strong>Email:</strong>
+            {{ customer.email|default:"Not provided" }}
+        </p>
+
+        <p><strong>Account status:</strong>
+            {% if customer.is_active %}
+                Active
+            {% else %}
+                Inactive
+            {% endif %}
+        </p>
+
+        <p><strong>Date joined:</strong>
+            {{ customer.date_joined|date:"d M Y" }}
+        </p>
+    </div>
+
+    <div class="form-card">
+        <h2>Shopping Summary</h2>
+
+        <h1 class="price">{{ total_orders }}</h1>
+        <p>Total orders placed</p>
+
+        <a href="{% url 'order_history' %}" class="primary">
+            View My Orders
+        </a>
+    </div>
+
+    <div class="form-card">
+        <h2>Recent Orders</h2>
+
+        {% for order in recent_orders %}
+            <p>
+                Order #{{ order.id }} —
+                ₹{{ order.total_amount }} —
+                {{ order.created_at|date:"d M Y" }}
+            </p>
+        {% empty %}
+            <p>You haven't placed any orders yet.</p>
+        {% endfor %}
+    </div>
+
+    <a href="{% url 'home' %}" class="primary">
+        Continue Shopping
+    </a>
+
+</div>
+
+{% endblock %}

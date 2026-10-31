@@ -1,0 +1,7 @@
+{% extends "store/base.html" %}
+{% block title %}Order Confirmed - ShopEasy{% endblock %}
+{% block content %}
+<section class="success"><h1>🎉 Order placed successfully!</h1><p>Thank you, {{ order.customer_name }}.</p><p>Your order number is <strong>#{{ order.id }}</strong>.</p><h2>Order details</h2>
+{% for item in order.items.all %}<p>{{ item.product_name }} × {{ item.quantity }} — ₹{{ item.price }}</p>{% endfor %}
+<h2>Total paid: ₹{{ order.total_amount }}</h2><p class="note">Demo checkout: no real payment has been collected.</p><a class="button primary" href="{% url 'home' %}">Continue Shopping</a></section>
+{% endblock %}

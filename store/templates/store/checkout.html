@@ -1,0 +1,15 @@
+{% extends "store/base.html" %}
+{% block title %}Checkout - ShopEasy{% endblock %}
+{% block content %}
+<h1>Checkout</h1><div class="checkout-layout">
+<form method="post" class="form-card">{% csrf_token %}
+{% if error %}<p class="error">{{ error }}</p>{% endif %}
+<label>Full name<input name="customer_name" required></label>
+<label>Email address<input type="email" name="email" required></label>
+<label>Phone number<input type="tel" name="phone" required></label>
+<label>Delivery address<textarea name="address" rows="4" required></textarea></label>
+<button class="primary" type="submit">Place Order</button>
+</form>
+<aside class="summary"><h3>Order Summary</h3>{% for item in cart_items %}<p>{{ item.product.name }} × {{ item.quantity }} <strong>₹{{ item.subtotal }}</strong></p>{% endfor %}<hr><h2>Total: ₹{{ total }}</h2></aside>
+</div>
+{% endblock %}

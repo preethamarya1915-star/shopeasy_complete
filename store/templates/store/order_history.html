@@ -1,0 +1,44 @@
+
+{% extends "store/base.html" %}
+
+{% block title %}My Orders - ShopEasy{% endblock %}
+
+{% block content %}
+
+<h1>My Orders</h1>
+
+{% for order in orders %}
+
+<div class="form-card">
+    <h3>Order #{{ order.id }}</h3>
+
+    <p>Date: {{ order.created_at }}</p>
+
+    <p>Customer: {{ order.customer_name }}</p>
+
+    <h3>Total: ₹{{ order.total_amount }}</h3>
+
+    <h4>Products:</h4>
+
+    {% for item in order.items.all %}
+        <p>
+            {{ item.product_name }}
+            × {{ item.quantity }}
+            — ₹{{ item.price }}
+        </p>
+    {% endfor %}
+</div>
+
+<br>
+
+{% empty %}
+
+<p>You haven't placed any orders yet.</p>
+
+{% endfor %}
+
+<a href="{% url 'home' %}" class="button primary">
+    Continue Shopping
+</a>
+
+{% endblock %}

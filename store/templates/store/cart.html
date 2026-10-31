@@ -1,0 +1,14 @@
+{% extends "store/base.html" %}
+{% block title %}Your Cart - ShopEasy{% endblock %}
+{% block content %}
+<h1>Your Shopping Cart</h1>
+{% for item in cart_items %}
+<div class="cart-row">
+  <div><h3>{{ item.product.name }}</h3><p>₹{{ item.product.price }} each</p></div>
+  <form method="post" action="{% url 'update_cart' item.product.id %}" class="quantity">{% csrf_token %}<label>Qty <input type="number" name="quantity" min="0" max="{{ item.product.stock }}" value="{{ item.quantity }}"></label><button>Update</button></form>
+  <strong>₹{{ item.subtotal }}</strong>
+  <form method="post" action="{% url 'remove_from_cart' item.product.id %}">{% csrf_token %}<button class="danger">Remove</button></form>
+</div>
+{% empty %}<p>Your cart is empty. <a href="{% url 'home' %}">Continue shopping</a>.</p>{% endfor %}
+{% if cart_items %}<div class="total">Total: ₹{{ total }}</div><a class="button primary" href="{% url 'checkout' %}">Proceed to Checkout</a>{% endif %}
+{% endblock %}
