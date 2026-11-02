@@ -1,10 +1,11 @@
 from pathlib import Path
 import os
+import dj_database_url
 
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = os.environ.get("SECRET_KEY", ")+e81j3yf8jr2wj8$+)v7!ak32twltcpi2=upy!0i6sgxgt-0p")
+SECRET_KEY = os.environ.get("SECRET_KEY", "0h@(!5dssxby4n22j*z1@^50s*^im#&7h+#8pf7*)_ebbl@g%(")
 
 DEBUG = os.environ.get("DEBUG", "False") == "True"
 
@@ -36,6 +37,9 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "django.middleware.security.SecurityMiddleware",
+    "whitenoise.middleware.WhiteNoiseMiddleware",
+    # Keep the remaining middleware unchanged
 ]
 
 ROOT_URLCONF = "config.urls"
@@ -55,12 +59,15 @@ TEMPLATES = [{
 
 WSGI_APPLICATION = "config.wsgi.application"
 
+
 DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
-    }
+    "default": dj_database_url.config(
+        default=f"sqlite:///{BASE_DIR / 'db.sqlite3'}",
+        conn_max_age=600,
+        ssl_require=not DEBUG,
+    )
 }
+
 
 AUTH_PASSWORD_VALIDATORS = []
 
